@@ -191,13 +191,12 @@ export default class ScrollArea extends React.Component {
     }
 
     handleTouchMove(e) {
-        if (this.canScroll()) {
-            e.preventDefault();
-            e.stopPropagation();
-        }
-
         let {touches} = e;
         if (touches.length === 1) {
+            if (this.canScroll()) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
             let {clientX, clientY} = touches[0];
 
             let deltaY = this.eventPreviousValues.clientY - clientY;
