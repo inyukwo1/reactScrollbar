@@ -84,6 +84,7 @@ export default class ScrollArea extends React.Component {
     }
 
     componentDidUpdate() {
+        this.props.onUpdate();
         this.setSizesToState();
     }
 
@@ -478,6 +479,7 @@ ScrollArea.propTypes = {
     swapWheelAxes: PropTypes.bool,
     stopScrollPropagation: PropTypes.bool,
     focusableTabIndex: PropTypes.number,
+    onUpdate: PropTypes.func
 };
 
 ScrollArea.defaultProps = {
