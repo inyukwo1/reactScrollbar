@@ -229,6 +229,7 @@ export default class ScrollArea extends React.Component {
             if (this.props.onMouseUp) {
                 this.props.onMouseUp();
             }
+            this.mousePressing = false;
             return;
         }
         if (this.canScroll()) {
