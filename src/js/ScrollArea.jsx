@@ -222,6 +222,10 @@ export default class ScrollArea extends React.Component {
     }
 
     handleMouseUp(e) {
+        if (this.canScroll()) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
         let {deltaX, deltaY, timestamp} = this.eventPreviousValues;
         if (typeof deltaX === 'undefined') deltaX = 0;
         if (typeof deltaY === 'undefined') deltaY = 0;
