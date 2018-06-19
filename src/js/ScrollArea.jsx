@@ -62,6 +62,7 @@ export default class ScrollArea extends React.Component {
         };
 
         this.mousePressing = false;
+        this.mouseDragging = false;
 
         this.bindedHandleWindowResize = this.handleWindowResize.bind(this);
     }
@@ -87,7 +88,9 @@ export default class ScrollArea extends React.Component {
     }
 
     componentDidUpdate() {
-        this.props.onUpdate();
+        if (this.props.onUpdate) {
+            this.props.onUpdate();
+        }
         this.setSizesToState();
     }
 
@@ -194,7 +197,6 @@ export default class ScrollArea extends React.Component {
             timestamp: Date.now()
         };
         this.mousePressing = true;
-        this.setState({cursor:"-webkit-grabbing"});
     }
 
     handleMouseMove(e) {
@@ -217,11 +219,18 @@ export default class ScrollArea extends React.Component {
             clientX: screenX,
             timestamp: Date.now()
         };
-
+        this.mouseDragging = true;
+        this.setState({cursor:"-webkit-grabbing"});
         this.setStateFromEvent(this.composeNewState(-deltaX, -deltaY));
     }
 
     handleMouseUp(e) {
+        if (this.mouseDragging == false) {
+            if (this.props.onMouseUp) {
+                this.props.onMouseUp();
+            }
+            return;
+        }
         if (this.canScroll()) {
             e.preventDefault();
             e.stopPropagation();
@@ -239,11 +248,13 @@ export default class ScrollArea extends React.Component {
             deltaX: 0
         };
         this.mousePressing = false;
+        this.mouseDragging = false;
         this.setState({cursor:"default"});
     }
 
     handleMouseLeave(e) {
         this.mousePressing = false;
+        this.mouseDragging = false;
         this.setState({cursor:"default"});
     }
 
@@ -548,7 +559,8 @@ ScrollArea.propTypes = {
     swapWheelAxes: PropTypes.bool,
     stopScrollPropagation: PropTypes.bool,
     focusableTabIndex: PropTypes.number,
-    onUpdate: PropTypes.func
+    onUpdate: PropTypes.func,
+    onMouseUp: PropTypes.func
 };
 
 ScrollArea.defaultProps = {
