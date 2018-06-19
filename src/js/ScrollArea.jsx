@@ -26,7 +26,8 @@ export default class ScrollArea extends React.Component {
             realHeight: 0,
             containerHeight: 0,
             realWidth: 0,
-            containerWidth: 0
+            containerWidth: 0,
+            cursor: "default"
         };
 
         this.scrollArea = {
@@ -59,6 +60,8 @@ export default class ScrollArea extends React.Component {
             deltaX: 0,
             deltaY: 0
         };
+
+        this.mousePressing = false;
 
         this.bindedHandleWindowResize = this.handleWindowResize.bind(this);
     }
@@ -148,13 +151,17 @@ export default class ScrollArea extends React.Component {
                     <div
                         ref={x => this.wrapper = x}
                         className={classes}
-                        style={this.props.style}
+                        style={{...this.props.style, cursor:this.state.cursor}}
                         onWheel={this.handleWheel.bind(this)}
                     >
                         <div
                             ref={x => this.content = x}
                             style={{ ...this.props.contentStyle, ...style }}
                             className={contentClasses}
+                            onMouseDown={this.handleMouseDown.bind(this)}
+                            onMouseMove={this.handleMouseMove.bind(this)}
+                            onMouseUp={this.handleMouseUp.bind(this)}
+                            onMouseLeave={this.handleMouseLeave.bind(this)}
                             onTouchStart={this.handleTouchStart.bind(this)}
                             onTouchMove={this.handleTouchMove.bind(this)}
                             onTouchEnd={this.handleTouchEnd.bind(this)}
@@ -176,6 +183,64 @@ export default class ScrollArea extends React.Component {
             this.props.onScroll(newState);
         }
         this.setState({...newState, eventType});
+    }
+
+    handleMouseDown(e) {
+        let {screenX, screenY} = e;
+        this.eventPreviousValues = {
+            ...this.eventPreviousValues,
+            clientY: screenY,
+            clientX: screenX,
+            timestamp: Date.now()
+        };
+        this.mousePressing = true;
+        this.setState({cursor:"-webkit-grabbing"});
+    }
+
+    handleMouseMove(e) {
+        if (!this.mousePressing) {
+            return;
+        }
+        if (this.canScroll()) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        let {screenX, screenY} = e;
+        let deltaY = this.eventPreviousValues.clientY - screenY;
+        let deltaX = this.eventPreviousValues.clientX - screenX;
+
+        this.eventPreviousValues = {
+            ...this.eventPreviousValues,
+            deltaY,
+            deltaX,
+            clientY: screenY,
+            clientX: screenX,
+            timestamp: Date.now()
+        };
+
+        this.setStateFromEvent(this.composeNewState(-deltaX, -deltaY));
+    }
+
+    handleMouseUp(e) {
+        let {deltaX, deltaY, timestamp} = this.eventPreviousValues;
+        if (typeof deltaX === 'undefined') deltaX = 0;
+        if (typeof deltaY === 'undefined') deltaY = 0;
+        if (Date.now() - timestamp < 200) {
+            this.setStateFromEvent(this.composeNewState(-deltaX * 10, -deltaY * 10), eventTypes.touchEnd);
+        }
+
+        this.eventPreviousValues = {
+            ...this.eventPreviousValues,
+            deltaY: 0,
+            deltaX: 0
+        };
+        this.mousePressing = false;
+        this.setState({cursor:"default"});
+    }
+
+    handleMouseLeave(e) {
+        this.mousePressing = false;
+        this.setState({cursor:"default"});
     }
 
     handleTouchStart(e) {
