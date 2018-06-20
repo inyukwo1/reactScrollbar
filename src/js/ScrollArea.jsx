@@ -63,6 +63,7 @@ export default class ScrollArea extends React.Component {
 
         this.mousePressing = false;
         this.mouseDragging = false;
+        this.touchMoving = false;
 
         this.bindedHandleWindowResize = this.handleWindowResize.bind(this);
     }
@@ -279,6 +280,7 @@ export default class ScrollArea extends React.Component {
                 e.preventDefault();
                 e.stopPropagation();
             }
+            this.touchMoving = true;
             let {clientX, clientY} = touches[0];
 
             let deltaY = this.eventPreviousValues.clientY - clientY;
@@ -298,6 +300,12 @@ export default class ScrollArea extends React.Component {
     }
 
     handleTouchEnd(e) {
+        if (!this.touchMoving) {
+            if (this.props.onTouch) {
+                this.props.onTouch();
+            }
+            this.touchMoving = false;
+        }
         let {deltaX, deltaY, timestamp} = this.eventPreviousValues;
         if (typeof deltaX === 'undefined') deltaX = 0;
         if (typeof deltaY === 'undefined') deltaY = 0;
@@ -561,7 +569,8 @@ ScrollArea.propTypes = {
     stopScrollPropagation: PropTypes.bool,
     focusableTabIndex: PropTypes.number,
     onUpdate: PropTypes.func,
-    onMouseUp: PropTypes.func
+    onMouseUp: PropTypes.func,
+    onTouch: PropTypes.func
 };
 
 ScrollArea.defaultProps = {
