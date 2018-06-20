@@ -302,6 +302,8 @@ export default class ScrollArea extends React.Component {
     handleTouchEnd(e) {
         if (this.touchMovingCount < 10) {
             if (this.props.onTouch) {
+                e.preventDefault();
+                e.stopPropagation();
                 this.props.onTouch();
             }
         }
