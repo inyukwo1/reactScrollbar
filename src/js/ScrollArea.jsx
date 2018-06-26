@@ -183,10 +183,10 @@ export default class ScrollArea extends React.Component {
     }
 
     setStateFromEvent(newState, eventType) {
-        if (this.props.onScroll) {
-            this.props.onScroll(newState);
-        }
         this.setState({...newState, eventType});
+        if (this.props.onScroll) {
+            this.props.onScroll(this.state);
+        }
     }
 
     handleMouseDown(e) {
