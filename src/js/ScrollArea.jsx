@@ -335,6 +335,9 @@ export default class ScrollArea extends React.Component {
     }
 
     handleWheel(e) {
+        if (this.props.preventWheel) {
+            return;
+        }
         let deltaY = e.deltaY;
         let deltaX = e.deltaX;
 
@@ -572,7 +575,8 @@ ScrollArea.propTypes = {
     focusableTabIndex: PropTypes.number,
     onUpdate: PropTypes.func,
     onMouseUp: PropTypes.func,
-    onTouch: PropTypes.func
+    onTouch: PropTypes.func,
+    preventWheel: PropTypes.bool
 };
 
 ScrollArea.defaultProps = {
@@ -584,4 +588,5 @@ ScrollArea.defaultProps = {
     contentWindow: (typeof window === "object") ? window : undefined,
     ownerDocument: (typeof document === "object") ? document : undefined,
     focusableTabIndex: 1,
+    preventWheel: false
 };
