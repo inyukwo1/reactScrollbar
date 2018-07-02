@@ -242,6 +242,7 @@ export default class ScrollArea extends React.Component {
         if (typeof deltaY === 'undefined') deltaY = 0;
         if (Date.now() - timestamp < 200) {
             this.setStateFromEvent(this.composeNewState(-deltaX * 10, -deltaY * 10), eventTypes.touchEnd);
+            this.props.onMouseUp();
         }
 
         this.eventPreviousValues = {
