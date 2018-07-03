@@ -190,26 +190,17 @@ export default class ScrollArea extends React.Component {
     }
 
     handleMouseDown(e) {
-
-        if (!draggable) {
-            return;
-        }
         let {screenX, screenY} = e;
         this.eventPreviousValues = {
             ...this.eventPreviousValues,
             clientY: screenY,
             clientX: screenX,
-            timestamp: Date.now(),
-            startTime: Date.now()
+            timestamp: Date.now()
         };
         this.mousePressing = true;
     }
 
     handleMouseMove(e) {
-
-        if (!draggable) {
-            return;
-        }
         if (!this.mousePressing) {
             return;
         }
@@ -242,21 +233,15 @@ export default class ScrollArea extends React.Component {
             this.mousePressing = false;
             return;
         }
-
-        if (!draggable) {
-            return;
-        }
         if (this.canScroll()) {
             e.preventDefault();
             e.stopPropagation();
         }
-        let {deltaX, deltaY, timestamp, startTime} = this.eventPreviousValues;
+        let {deltaX, deltaY, timestamp} = this.eventPreviousValues;
         if (typeof deltaX === 'undefined') deltaX = 0;
         if (typeof deltaY === 'undefined') deltaY = 0;
         if (Date.now() - timestamp < 200) {
             this.setStateFromEvent(this.composeNewState(-deltaX * 10, -deltaY * 10), eventTypes.touchEnd);
-        }
-        if (Date.now() - startTime < 200) {
             this.props.onMouseUp();
         }
 
@@ -277,9 +262,6 @@ export default class ScrollArea extends React.Component {
     }
 
     handleTouchStart(e) {
-        if (!draggable) {
-            return;
-        }
         let {touches} = e;
         if (touches.length === 1) {
             let {clientX, clientY} = touches[0];
@@ -293,9 +275,6 @@ export default class ScrollArea extends React.Component {
     }
 
     handleTouchMove(e) {
-        if (!draggable) {
-            return;
-        }
         let {touches} = e;
         if (touches.length === 1) {
             if (this.canScroll()) {
@@ -328,9 +307,6 @@ export default class ScrollArea extends React.Component {
                 e.stopPropagation();
                 this.props.onTouch();
             }
-        }
-        if (!draggable) {
-            return;
         }
         this.touchMovingCount = 0;
         let {deltaX, deltaY, timestamp} = this.eventPreviousValues;
@@ -601,8 +577,7 @@ ScrollArea.propTypes = {
     onUpdate: PropTypes.func,
     onMouseUp: PropTypes.func,
     onTouch: PropTypes.func,
-    preventWheel: PropTypes.bool,
-    draggable: PropTypes.bool
+    preventWheel: PropTypes.bool
 };
 
 ScrollArea.defaultProps = {
@@ -614,6 +589,5 @@ ScrollArea.defaultProps = {
     contentWindow: (typeof window === "object") ? window : undefined,
     ownerDocument: (typeof document === "object") ? document : undefined,
     focusableTabIndex: 1,
-    preventWheel: false,
-    draggable: true
+    preventWheel: false
 };
