@@ -195,7 +195,8 @@ export default class ScrollArea extends React.Component {
             ...this.eventPreviousValues,
             clientY: screenY,
             clientX: screenX,
-            timestamp: Date.now()
+            timestamp: Date.now(),
+            startTime: Date.now()
         };
         this.mousePressing = true;
     }
@@ -237,14 +238,15 @@ export default class ScrollArea extends React.Component {
             e.preventDefault();
             e.stopPropagation();
         }
-        let {deltaX, deltaY, timestamp} = this.eventPreviousValues;
+        let {deltaX, deltaY, timestamp, startTime} = this.eventPreviousValues;
         if (typeof deltaX === 'undefined') deltaX = 0;
         if (typeof deltaY === 'undefined') deltaY = 0;
         if (Date.now() - timestamp < 200) {
             this.setStateFromEvent(this.composeNewState(-deltaX * 10, -deltaY * 10), eventTypes.touchEnd);
+        }
+        if (Date.now() - startTime < 200) {
             this.props.onMouseUp();
         }
-
         this.eventPreviousValues = {
             ...this.eventPreviousValues,
             deltaY: 0,
