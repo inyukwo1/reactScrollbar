@@ -190,6 +190,9 @@ export default class ScrollArea extends React.Component {
     }
 
     handleMouseDown(e) {
+        if (this.props.onMouseDown) {
+            this.props.onMouseDown();
+        }
         let {screenX, screenY} = e;
         this.eventPreviousValues = {
             ...this.eventPreviousValues,
@@ -578,6 +581,7 @@ ScrollArea.propTypes = {
     focusableTabIndex: PropTypes.number,
     onUpdate: PropTypes.func,
     onMouseUp: PropTypes.func,
+    onMouseDown: PropTypes.func,
     onTouch: PropTypes.func,
     preventWheel: PropTypes.bool
 };
