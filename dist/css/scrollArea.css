@@ -14,7 +14,6 @@
 .scrollarea .scrollbar-container {
   position: absolute;
   background: none;
-  opacity: .1;
   z-index: 9999;
   -webkit-transition: all .4s;
   -moz-transition: all .4s;
@@ -45,15 +44,4 @@
   height: 20px;
   background: black;
   margin-left: 1px;
-}
-.scrollarea .scrollbar-container:hover {
-  background: gray;
-  opacity: .6 !important;
-}
-.scrollarea .scrollbar-container.active {
-  background: gray;
-  opacity: .6 !important;
-}
-.scrollarea:hover .scrollbar-container {
-  opacity: .3;
 }
