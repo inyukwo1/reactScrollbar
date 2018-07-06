@@ -60,25 +60,26 @@ class ScrollBar extends React.Component {
     }
 
     render(){
-        let {smoothScrolling, isDragging, type, scrollbarStyle, containerStyle} = this.props;
+        let {smoothScrolling, isDragging, type, scrollbarStyle, containerStyle, containerclassName, barClassName} = this.props;
         let isVoriziontal = type === 'horizontal';
         let isVertical = type === 'vertical';
         let scrollStyles = this.createScrollStyles();
         let springifiedScrollStyles = smoothScrolling ? modifyObjValues(scrollStyles, x => spring(x)) : scrollStyles;
 
-        let scrollbarClasses = `scrollbar-container ${isDragging ? 'active' : ''} ${isVoriziontal ? 'horizontal' : ''} ${isVertical ? 'vertical' : ''}`;
+        let scrollbarContainerClasses = `scrollbar-container ${isDragging ? 'active' : ''} ${isVoriziontal ? 'horizontal' : ''} ${isVertical ? 'vertical' : ''} ${containerclassName}`;
+        let scrollbarClasses = `scrollbar ${barClassName}`
 
         return (
             <Motion style={springifiedScrollStyles}>
                 { style =>
                     <div
-                        className={scrollbarClasses}
+                        className={scrollbarContainerClasses}
                         style={containerStyle}
                         onMouseDown={this.handleScrollBarContainerClick.bind(this)}
                         ref={ x => this.scrollbarContainer = x }
                     >
                         <div
-                            className="scrollbar"
+                            className={scrollbarClasses}
                             style={{ ...scrollbarStyle, ...style }}
                             onMouseDown={this.handleMouseDown.bind(this)}
                         />
@@ -175,7 +176,9 @@ ScrollBar.propTypes = {
     type: PropTypes.oneOf(['vertical', 'horizontal']),
     ownerDocument: PropTypes.any,
     smoothScrolling: PropTypes.bool,
-    minScrollSize: PropTypes.number
+    minScrollSize: PropTypes.number,
+    containerclassName : PropTypes.string,
+    barClassName: PropTypes.string
 };
 
 ScrollBar.defaultProps = {

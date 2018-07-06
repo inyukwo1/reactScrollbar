@@ -114,6 +114,8 @@ export default class ScrollArea extends React.Component {
                 smoothScrolling={withMotion}
                 minScrollSize={this.props.minScrollSize}
                 onFocus={this.focusContent.bind(this)}
+                containerclassName={this.props.verticalScrollbarContainerClassName}
+                barClassName={this.props.verticalScrollbarClassName}
                 type="vertical"/>
         ) : null;
 
@@ -130,6 +132,8 @@ export default class ScrollArea extends React.Component {
                 smoothScrolling={withMotion}
                 minScrollSize={this.props.minScrollSize}
                 onFocus={this.focusContent.bind(this)}
+                containerclassName={this.props.horizontalScrollbarContainerClassName}
+                barClassName={this.props.horizontalScrollbarClassName}
                 type="horizontal"/>
         ) : null;
 
@@ -583,7 +587,12 @@ ScrollArea.propTypes = {
     onMouseUp: PropTypes.func,
     onMouseDown: PropTypes.func,
     onTouch: PropTypes.func,
-    preventWheel: PropTypes.bool
+    preventWheel: PropTypes.bool,
+    verticalScrollbarClassName: PropTypes.string,
+    verticalScrollbarContainerClassName: PropTypes.string,
+    horizontalScrollbarClassName: PropTypes.string,
+    horizontalScrollbarContainerClassName: PropTypes.string,
+
 };
 
 ScrollArea.defaultProps = {
