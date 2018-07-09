@@ -263,7 +263,7 @@ export default class ScrollArea extends React.Component {
             timestamp: Date.now()
         };
         this.mouseDragging = true;
-        this.setState({cursor:"-webkit-grabbing !important"});
+        this.setState({cursor:"-webkit-grabbing"});
         this.setStateFromEvent(this.composeNewState(-deltaX, -deltaY));
     }
 
