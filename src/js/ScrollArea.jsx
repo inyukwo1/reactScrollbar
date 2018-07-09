@@ -169,15 +169,15 @@ export default class ScrollArea extends React.Component {
                         ref={x => this.wrapper = x}
                         className={classes}
                         style={{...this.props.style, cursor:this.state.cursor}}
-                        onWheel={this.bindedHandleWheel.bind(this)}
-                        onMouseDown={this.bindedHandleMouseDown.bind(this)}
-                        onMouseMove={this.bindedHandleMouseMove.bind(this)}
-                        onMouseUp={this.bindedHandleMouseUp.bind(this)}
-                        onMouseLeave={this.bindedHandleMouseLeave.bind(this)}
-                        onTouchStart={this.bindedHandleTouchStart.bind(this)}
-                        onTouchMove={this.bindedHandleTouchMove.bind(this)}
-                        onTouchEnd={this.bindedHandleTouchEnd.bind(this)}
-                        onKeyDown={this.bindedHandleKeyDown.bind(this)}
+                        onWheel={this.bindedHandleWheel}
+                        onMouseDown={this.bindedHandleMouseDown}
+                        onMouseMove={this.bindedHandleMouseMove}
+                        onMouseUp={this.bindedHandleMouseUp}
+                        onMouseLeave={this.bindedHandleMouseLeave}
+                        onTouchStart={this.bindedHandleTouchStart}
+                        onTouchMove={this.bindedHandleTouchMove}
+                        onTouchEnd={this.bindedHandleTouchEnd}
+                        onKeyDown={this.bindedHandleKeyDown}
                         tabIndex={this.props.focusableTabIndex}
                     >
                         {this.props.middleChildren()}
