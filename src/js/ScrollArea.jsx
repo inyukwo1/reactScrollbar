@@ -64,7 +64,8 @@ export default class ScrollArea extends React.Component {
         this.mousePressing = false;
         this.mouseDragging = false;
         this.touchMovingCount = 0;
-        this.twoTouch = false;
+        this.multiTouchCount = 0;
+        this.doubleTouch = false;
 
         this.bindedHandleWindowResize = this.handleWindowResize.bind(this);
         this.bindedHandleWheel = this.handleWheel.bind(this);
@@ -308,6 +309,10 @@ export default class ScrollArea extends React.Component {
     }
 
     handleTouchStart(e) {
+        this.multiTouchCount++;
+        if (this.multiTouchCount >= 2) {
+            this.doubleTouch = true;
+        }
         let {touches} = e;
         if (touches.length === 1) {
             let {clientX, clientY} = touches[0];
@@ -347,20 +352,19 @@ export default class ScrollArea extends React.Component {
     }
 
     handleTouchEnd(e) {
-        if (e.touches.length == 2) {
-            this.twoTouch = true;
+        if (this.doubleTouch) {
+            this.multiTouchCount--;
+            if (this.multiTouchCount == 0) {
+                this.doubleTouch = false;
+            }
             return;
         }
         if (this.touchMovingCount < 10) {
-            if (!this.twoTouch && this.props.onTouch) {
+            if (this.props.onTouch) {
                 e.preventDefault();
                 e.stopPropagation();
                 this.props.onTouch();
             }
-            if (this.twoTouch && e.touches.length == 1) {
-                this.twoTouch = false;
-            }
-            return;
         }
         this.touchMovingCount = 0;
         let {deltaX, deltaY, timestamp} = this.eventPreviousValues;
