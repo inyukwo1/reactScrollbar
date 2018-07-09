@@ -109,6 +109,7 @@ class ScrollBar extends React.Component {
 
         if(this.state.isDragging){
             e.preventDefault();
+            e.stopPropagation();
             let deltaX = this.state.lastClientPosition - e.clientX;
             this.setState({ lastClientPosition: e.clientX });
             this.props.onMove(0, deltaX / multiplier);
@@ -120,6 +121,7 @@ class ScrollBar extends React.Component {
 
         if(this.state.isDragging){
             e.preventDefault();
+            e.stopPropagation();
             let deltaY = this.state.lastClientPosition - e.clientY;
             this.setState({ lastClientPosition: e.clientY });
             this.props.onMove(deltaY / multiplier, 0);
@@ -138,6 +140,7 @@ class ScrollBar extends React.Component {
     handleMouseUp(e){
         if (this.state.isDragging) {
             e.preventDefault();
+            e.stopPropagation();
             this.setState({isDragging: false });
         }
     }
@@ -179,7 +182,7 @@ ScrollBar.propTypes = {
     smoothScrolling: PropTypes.bool,
     minScrollSize: PropTypes.number,
     containerclassName : PropTypes.string,
-    barClassName: PropTypes.string
+    barClassName: PropTypes.string,
 };
 
 ScrollBar.defaultProps = {
