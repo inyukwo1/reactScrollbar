@@ -207,6 +207,8 @@ export default class ScrollArea extends React.Component {
     }
 
     resumeGrabbing = () => {
+        this.mouseDragging = false;
+        this.mousePressing = false;
         this.wrapper.addEventListener("mousedown", this.bindedHandleMouseDown)
         this.wrapper.addEventListener("mousemove", this.bindedHandleMouseMove)
         this.wrapper.addEventListener("mouseup", this.bindedHandleMouseUp)
@@ -214,8 +216,6 @@ export default class ScrollArea extends React.Component {
         this.wrapper.addEventListener("touchstart", this.bindedHandleTouchStart)
         this.wrapper.addEventListener("touchmove", this.bindedHandleTouchMove)
         this.wrapper.addEventListener("touchend", this.bindedHandleTouchEnd)
-        this.mouseDragging = false;
-        this.mousePressing = false;
     }
 
     setStateFromEvent(newState, eventType) {
@@ -226,6 +226,7 @@ export default class ScrollArea extends React.Component {
     }
 
     handleMouseDown(e) {
+        cnosole.log("mouse down");
         if (this.props.onMouseDown) {
             this.props.onMouseDown();
         }
@@ -241,6 +242,7 @@ export default class ScrollArea extends React.Component {
     }
 
     handleMouseMove(e) {
+        cnosole.log("mouse move");
         if (!this.mousePressing) {
             return;
         }
@@ -266,6 +268,7 @@ export default class ScrollArea extends React.Component {
     }
 
     handleMouseUp(e) {
+        cnosole.log("mouse up");
         if (this.mouseDragging == false) {
             if (this.props.onMouseUp) {
                 this.props.onMouseUp();
