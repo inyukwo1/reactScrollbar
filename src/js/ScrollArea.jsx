@@ -162,6 +162,7 @@ export default class ScrollArea extends React.Component {
                         style={{...this.props.style, cursor:this.state.cursor}}
                         onWheel={this.handleWheel.bind(this)}
                     >
+                        {this.props.middleChildren()}
                         <div
                             ref={x => this.content = x}
                             style={{ ...this.props.contentStyle, ...style }}
@@ -592,7 +593,7 @@ ScrollArea.propTypes = {
     verticalScrollbarContainerClassName: PropTypes.string,
     horizontalScrollbarClassName: PropTypes.string,
     horizontalScrollbarContainerClassName: PropTypes.string,
-
+    middleChildren: PropTypes.func,
 };
 
 ScrollArea.defaultProps = {
@@ -604,5 +605,6 @@ ScrollArea.defaultProps = {
     contentWindow: (typeof window === "object") ? window : undefined,
     ownerDocument: (typeof document === "object") ? document : undefined,
     focusableTabIndex: 1,
-    preventWheel: false
+    preventWheel: false,
+    middleChildren: ()=>{}
 };
