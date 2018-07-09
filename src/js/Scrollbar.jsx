@@ -129,6 +129,7 @@ class ScrollBar extends React.Component {
     }
 
     handleMouseDown(e){
+        this.props.preventGrabbing();
         e.preventDefault();
         e.stopPropagation();
         let lastClientPosition = this.isVertical() ? e.clientY: e.clientX;
@@ -139,6 +140,7 @@ class ScrollBar extends React.Component {
 
     handleMouseUp(e){
         if (this.state.isDragging) {
+            this.props.resumeGrabbing();
             e.preventDefault();
             e.stopPropagation();
             this.setState({isDragging: false });
@@ -183,6 +185,8 @@ ScrollBar.propTypes = {
     minScrollSize: PropTypes.number,
     containerclassName : PropTypes.string,
     barClassName: PropTypes.string,
+    preventGrabbing: PropTypes.func,
+    resumeGrabbing: PropTypes.func,
 };
 
 ScrollBar.defaultProps = {
