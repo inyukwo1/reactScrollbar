@@ -214,6 +214,8 @@ export default class ScrollArea extends React.Component {
         this.wrapper.addEventListener("touchstart", this.bindedHandleTouchStart)
         this.wrapper.addEventListener("touchmove", this.bindedHandleTouchMove)
         this.wrapper.addEventListener("touchend", this.bindedHandleTouchEnd)
+        this.mouseDragging = false;
+        this.mousePressing = false;
     }
 
     setStateFromEvent(newState, eventType) {
