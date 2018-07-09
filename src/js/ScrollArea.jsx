@@ -132,6 +132,8 @@ export default class ScrollArea extends React.Component {
                 onFocus={this.focusContent.bind(this)}
                 containerclassName={this.props.verticalScrollbarContainerClassName}
                 barClassName={this.props.verticalScrollbarClassName}
+                preventGrabbing={this.preventGrabbing}
+                resumeGrabbing={this.resumeGrabbing}
                 type="vertical"/>
         ) : null;
 
@@ -150,6 +152,8 @@ export default class ScrollArea extends React.Component {
                 onFocus={this.focusContent.bind(this)}
                 containerclassName={this.props.horizontalScrollbarContainerClassName}
                 barClassName={this.props.horizontalScrollbarClassName}
+                preventGrabbing={this.preventGrabbing}
+                resumeGrabbing={this.resumeGrabbing}
                 type="horizontal"/>
         ) : null;
 
