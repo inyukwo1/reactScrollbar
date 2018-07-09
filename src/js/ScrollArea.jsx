@@ -66,6 +66,15 @@ export default class ScrollArea extends React.Component {
         this.touchMovingCount = 0;
 
         this.bindedHandleWindowResize = this.handleWindowResize.bind(this);
+        this.bindedHandleWheel = this.handleWheel.bind(this);
+        this.bindedHandleMouseDown=this.handleMouseDown.bind(this);
+        this.bindedHandleMouseMove=this.handleMouseMove.bind(this);
+        this.bindedHandleMouseUp=this.handleMouseUp.bind(this);
+        this.bindedHandleMouseLeave=this.handleMouseLeave.bind(this);
+        this.bindedHandleTouchStart=this.handleTouchStart.bind(this);
+        this.bindedHandleTouchMove=this.handleTouchMove.bind(this);
+        this.bindedHandleTouchEnd=this.handleTouchEnd.bind(this);
+        this.bindedHandleKeyDown=this.handleKeyDown.bind(this);
     }
 
     getChildContext() {
@@ -160,15 +169,15 @@ export default class ScrollArea extends React.Component {
                         ref={x => this.wrapper = x}
                         className={classes}
                         style={{...this.props.style, cursor:this.state.cursor}}
-                        onWheel={this.handleWheel.bind(this)}
-                        onMouseDown={this.handleMouseDown.bind(this)}
-                        onMouseMove={this.handleMouseMove.bind(this)}
-                        onMouseUp={this.handleMouseUp.bind(this)}
-                        onMouseLeave={this.handleMouseLeave.bind(this)}
-                        onTouchStart={this.handleTouchStart.bind(this)}
-                        onTouchMove={this.handleTouchMove.bind(this)}
-                        onTouchEnd={this.handleTouchEnd.bind(this)}
-                        onKeyDown={this.handleKeyDown.bind(this)}
+                        onWheel={this.bindedHandleWheel.bind(this)}
+                        onMouseDown={this.bindedHandleMouseDown.bind(this)}
+                        onMouseMove={this.bindedHandleMouseMove.bind(this)}
+                        onMouseUp={this.bindedHandleMouseUp.bind(this)}
+                        onMouseLeave={this.bindedHandleMouseLeave.bind(this)}
+                        onTouchStart={this.bindedHandleTouchStart.bind(this)}
+                        onTouchMove={this.bindedHandleTouchMove.bind(this)}
+                        onTouchEnd={this.bindedHandleTouchEnd.bind(this)}
+                        onKeyDown={this.bindedHandleKeyDown.bind(this)}
                         tabIndex={this.props.focusableTabIndex}
                     >
                         {this.props.middleChildren()}
@@ -185,6 +194,26 @@ export default class ScrollArea extends React.Component {
                 }
             </Motion>
         );
+    }
+
+    preventGrabbing = () => {
+        this.wrapper.removeEventListener("mousedown", this.bindedHandleMouseDown)
+        this.wrapper.removeEventListener("mousemove", this.bindedHandleMouseMove)
+        this.wrapper.removeEventListener("mouseup", this.bindedHandleMouseUp)
+        this.wrapper.removeEventListener("mouseleave", this.bindedHandleMouseLeave)
+        this.wrapper.removeEventListener("touchstart", this.bindedHandleTouchStart)
+        this.wrapper.removeEventListener("touchmove", this.bindedHandleTouchMove)
+        this.wrapper.removeEventListener("touchend", this.bindedHandleTouchEnd)
+    }
+
+    resumeGrabbing = () => {
+        this.wrapper.addEventListener("mousedown", this.bindedHandleMouseDown)
+        this.wrapper.addEventListener("mousemove", this.bindedHandleMouseMove)
+        this.wrapper.addEventListener("mouseup", this.bindedHandleMouseUp)
+        this.wrapper.addEventListener("mouseleave", this.bindedHandleMouseLeave)
+        this.wrapper.addEventListener("touchstart", this.bindedHandleTouchStart)
+        this.wrapper.addEventListener("touchmove", this.bindedHandleTouchMove)
+        this.wrapper.addEventListener("touchend", this.bindedHandleTouchEnd)
     }
 
     setStateFromEvent(newState, eventType) {
@@ -230,7 +259,7 @@ export default class ScrollArea extends React.Component {
             timestamp: Date.now()
         };
         this.mouseDragging = true;
-        this.setState({cursor:"-webkit-grabbing"});
+        this.setState({cursor:"-webkit-grabbing !important"});
         this.setStateFromEvent(this.composeNewState(-deltaX, -deltaY));
     }
 
