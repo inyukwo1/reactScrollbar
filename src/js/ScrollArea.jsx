@@ -226,7 +226,6 @@ export default class ScrollArea extends React.Component {
     }
 
     handleMouseDown(e) {
-        console.log("mouse down");
         if (this.props.onMouseDown) {
             this.props.onMouseDown();
         }
@@ -242,7 +241,6 @@ export default class ScrollArea extends React.Component {
     }
 
     handleMouseMove(e) {
-        console.log("mouse move");
         if (!this.mousePressing) {
             return;
         }
@@ -268,7 +266,6 @@ export default class ScrollArea extends React.Component {
     }
 
     handleMouseUp(e) {
-        console.log("mouse up");
         if (this.mouseDragging == false) {
             if (this.props.onMouseUp) {
                 this.props.onMouseUp();

@@ -91,6 +91,7 @@ class ScrollBar extends React.Component {
 
     handleScrollBarContainerClick(e) {
         e.preventDefault();
+        e.stopPropagation();
         let multiplier = this.computeMultiplier();
         let clientPosition = this.isVertical() ? e.clientY : e.clientX;
         let { top, left } = this.scrollbarContainer.getBoundingClientRect();
