@@ -89,6 +89,13 @@ export default class ScrollArea extends React.Component {
         }
         this.lineHeightPx = lineHeight(findDOMNode(this.content));
         this.setSizesToState();
+        this.wrapper.addEventListener("mousedown", this.bindedHandleMouseDown)
+        this.wrapper.addEventListener("mousemove", this.bindedHandleMouseMove)
+        this.wrapper.addEventListener("mouseup", this.bindedHandleMouseUp)
+        this.wrapper.addEventListener("mouseleave", this.bindedHandleMouseLeave)
+        this.wrapper.addEventListener("touchstart", this.bindedHandleTouchStart)
+        this.wrapper.addEventListener("touchmove", this.bindedHandleTouchMove)
+        this.wrapper.addEventListener("touchend", this.bindedHandleTouchEnd)
     }
 
     componentWillUnmount() {
@@ -170,13 +177,6 @@ export default class ScrollArea extends React.Component {
                         className={classes}
                         style={{...this.props.style, cursor:this.state.cursor}}
                         onWheel={this.bindedHandleWheel}
-                        onMouseDown={this.bindedHandleMouseDown}
-                        onMouseMove={this.bindedHandleMouseMove}
-                        onMouseUp={this.bindedHandleMouseUp}
-                        onMouseLeave={this.bindedHandleMouseLeave}
-                        onTouchStart={this.bindedHandleTouchStart}
-                        onTouchMove={this.bindedHandleTouchMove}
-                        onTouchEnd={this.bindedHandleTouchEnd}
                         onKeyDown={this.bindedHandleKeyDown}
                         tabIndex={this.props.focusableTabIndex}
                     >
