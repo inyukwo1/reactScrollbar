@@ -66,6 +66,7 @@ export default class ScrollArea extends React.Component {
         this.touchMovingCount = 0;
         this.multiTouchCount = 0;
         this.doubleTouch = false;
+        this.touching = false;
 
         this.bindedHandleWindowResize = this.handleWindowResize.bind(this);
         this.bindedHandleWheel = this.handleWheel.bind(this);
@@ -309,6 +310,7 @@ export default class ScrollArea extends React.Component {
     }
 
     handleTouchStart(e) {
+        this.touching = true;
         this.multiTouchCount++;
         if (this.multiTouchCount >= 2) {
             this.doubleTouch = true;
@@ -352,6 +354,7 @@ export default class ScrollArea extends React.Component {
     }
 
     handleTouchEnd(e) {
+        this.touching = false;
         if (this.doubleTouch) {
             this.multiTouchCount--;
             if (this.multiTouchCount == 0) {
